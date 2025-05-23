@@ -71,3 +71,22 @@ function formatPrice(price) {
 
 console.log('JavaScript loaded successfully!');
 console.log('We have', products.length, 'products');
+
+// Function to create HTML for one product card
+
+function createProductCard(product) {
+    // Template literals (backticks) let us create HTML with JavaScript
+    return `
+        <div class="product-card">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-info">
+            <h3 class="product-title">${product.name}</h3>
+            <p class="product-description">${product.description}</p>
+            <div class="product-price">${formatPrice(product.price)}</div>
+            <div class="product-actions">
+                <button class="btn btn-primary btn-small" onclick="addToCart" (${})
+            </div>
+            </div>
+        </div>
+    `
+}

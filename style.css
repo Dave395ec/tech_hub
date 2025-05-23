@@ -107,6 +107,6 @@ body {
 
 .btn:hover {
     background-color: #f8fafc;
-    transition translateY(-2px)
+    transform: translateY(-2px);
 }
 

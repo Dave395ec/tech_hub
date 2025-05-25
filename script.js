@@ -97,7 +97,7 @@ function createProductCard(product) {
     `;
 }
 
-// Te
+// Function to display products on the page
 function displayProducts(productsToShow = products) {
     if (productsGrid) {
         const productsHTML = productsToShow.map(createProductCard).join('');
@@ -125,4 +125,36 @@ function viewProduct(productID) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Page loaded, displaying products...');
     displayProducts(products);
-})
+});
+
+//Function to handle filter button clicks
+function setupFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button =>{
+        button.addEventListener('click', function(){
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            this.classList.add('active');
+
+            const category = this.getAttribute('data-category');
+
+            let filteredProducts;
+            if (category === 'all') {
+                filteredProducts = products // Show all products
+            } else {
+                filteredProducts = products.filter(product => product.category === category);
+            }
+
+            displayProducts(filteredProducts);
+
+            console.log('Showing', filteredProducts.length, 'products in category:')
+        });
+    });
+}
+
+//Update our page load function
+document.addEventListener('DocumentLoaded', function() {
+    console.log('Page loaded, displaying products...');
+    displayProducts();
+    setupFilters(); //Add this line
+});

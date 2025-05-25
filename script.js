@@ -4,7 +4,7 @@ id: 1,
 name: "iPhone 15 Pro",
 price: 999,
 category: "phones",
-image: "https://via.placeholder.com/300x200/3b82f6/white?text=iPhone+15+Pro",
+image: "https://www.istore.co.za/media/catalog/product/cache/7cbfd4bf9761b066f119e95af17e67c5/i/p/iphone_15_pro_black_titanium_pdp_image_position_3.jpg",
 description: "The latest iPhone with amazing camera and performance"
 },
 {
@@ -12,7 +12,7 @@ id: 2,
 name: "MacBook Air",
 price: 1199,
 category: "laptops",
-image: "https://via.placeholder.com/300x200/10b981/white?text=MacBook+Air",
+image: "https://istorepreowned.co.za/cdn/shop/files/MacBook_Air_M1_2020_-_Space_Grey.png?v=1699424775&width=1000",
 description: "Lightweight laptop perfect for work and creativity"
 },
 {
@@ -20,7 +20,7 @@ id: 3,
 name: "AirPods Pro",
 price: 249,
 category: "accessories",
-image: "https://via.placeholder.com/300x200/f59e0b/white?text=AirPods+Pro",
+image: "https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SX342_SY445_.jpg",
 description: "Wireless earbuds with noise cancellation"
 },
 {
@@ -28,7 +28,7 @@ id: 4,
 name: "Samsung Galaxy S24",
 price: 899,
 category: "phones",
-image: "https://via.placeholder.com/300x200/8b5cf6/white?text=Galaxy+S24",
+image: "https://digitalexperience.co.za/wp-content/uploads/2024/01/SM-S921BZACAFA-z.png",
 description: "Android phone with incredible features"
 },
 {
@@ -36,7 +36,7 @@ id: 5,
 name: "Dell Laptop",
 price: 799,
 category: "laptops",
-image: "https://via.placeholder.com/300x200/06b6d4/white?text=Dell+Laptop",
+image: "https://m.media-amazon.com/images/I/61cqpaPruDL._AC_SY300_SX300_.jpg",
 description: "Reliable laptop for everyday computing"
 },
 
@@ -45,7 +45,7 @@ id: 6,
 name: "Wireless Mouse",
 price: 49,
 category: "accessories",
-image: "https://via.placeholder.com/300x200/ec4899/white?text=Wireless+Mouse",
+image: "https://m.media-amazon.com/images/I/31YQyN3LWvL._SY300_SX300_QL70_ML2_.jpg",
 description: "Ergonomic wireless mouse for productivity"
 }
 ];
@@ -82,19 +82,20 @@ function createProductCard(product) {
             <div class="product-info">
                 <h3 class="product-title">${product.name}</h3>
                 <p class="product-description">${product.description}</p>
-                <div class="product-price">${formatPrice(product.price)}</div>
+                <div class="product-price">
+                    ${formatPrice(product.price)}
+                </div>
                 <div class="product-actions">
                     <button class="btn btn-primary btn-small" onclick="addToCart(${product.id})">
                         Add to Cart
                     </button>
 
-                    <button class="btn btn-secondary btn-small" onclick="viewProduct(${product.id}">
+                    <button class="btn btn-secondary btn-small" onclick="viewProduct(${product.id})">
                         View Details
                     </button>
                 </div>
             </div>
-        </div>
-    `;
+        </div>`
 }
 
 // Function to display products on the page
@@ -112,32 +113,32 @@ function displayProducts(productsToShow = products) {
 
 //Function to add products to cart
 function addToCart(productId) {
-    alert(`Product ${productId} add to cart!`);
+    alert(`Product ${productId} added to cart!`);
 }
 
 //Function to view product details
 function viewProduct(productID) {
-    const product = products.find(p => p.id === productId);
-    alert('Product: ' + product.name + '\nPrice: ' + formatPrice(product.price) + '\nDescription: ' + product.description);
+    const product 
+        = products.find(prod => prod.id === productId);
+    alert('Product: ' + product.name + 
+        '\nPrice: ' + formatPrice(product.price) + 
+        '\nDescription: ' + product.description);
 }
-
-//Waiting for the page to load, then display products
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded, displaying products...');
-    displayProducts(products);
-});
 
 //Function to handle filter button clicks
 function setupFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(button =>{
+
+    filterButtons.forEach(button => {
+        //Remove active from all buttons
         button.addEventListener('click', function(){
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            
+        //Add active class to the clicked button
             this.classList.add('active');
-
+        //Get the category from the buttons data-category attribute
             const category = this.getAttribute('data-category');
-
+        
+        //Filter products based on category
             let filteredProducts;
             if (category === 'all') {
                 filteredProducts = products // Show all products
@@ -147,14 +148,14 @@ function setupFilters() {
 
             displayProducts(filteredProducts);
 
-            console.log('Showing', filteredProducts.length, 'products in category:')
+            console.log('Showing', filteredProducts.length, 'products in category: ', category);
         });
     });
 }
 
-//Update our page load function
-document.addEventListener('DocumentLoaded', function() {
+//Waiting for the page to load, then display products
+document.addEventListener('DOMContentLoaded', function() {
     console.log('Page loaded, displaying products...');
     displayProducts();
-    setupFilters(); //Add this line
-});
+    setupFilters();
+})

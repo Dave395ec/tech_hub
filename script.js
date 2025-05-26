@@ -101,12 +101,12 @@ function createProductCard(product) {
 // Function to display products on the page
 function displayProducts(productsToShow = products) {
     if (productsGrid) {
-        const productsHTML = productsToShow.map(createProductCard).join('');
-        productsGrid.innerHTML = productsHTML;
+        console.log('Display products... on products page');
+        productsGrid.innerHTML = productsToShow.map(createProductCard).join('');
     }
 
     if (featuredProducts){
-        const featuredHTML = productsToShow.slice(0, 3).map(createProductCard).join('');
+        const featuredHTML = productsToShow.slice(0, 4).map(createProductCard).join('');
         featuredProducts.innerHTML = featuredHTML; 
     }
 }
@@ -117,7 +117,7 @@ function addToCart(productId) {
 }
 
 //Function to view product details
-function viewProduct(productID) {
+function viewProduct(productId) {
     const product 
         = products.find(prod => prod.id === productId);
     alert('Product: ' + product.name + 

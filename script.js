@@ -106,7 +106,7 @@ function displayProducts(productsToShow = products) {
     }
 
     if (featuredProducts){
-        const featuredHTML = productsToShow.slice(0, 4).map(createProductCard).join('');
+        const featuredHTML = productsToShow.slice(0, 6).map(createProductCard).join('');
         featuredProducts.innerHTML = featuredHTML; 
     }
 }

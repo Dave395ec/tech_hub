@@ -159,3 +159,133 @@ document.addEventListener('DOMContentLoaded', function() {
     displayProducts();
     setupFilters();
 })
+
+// Function to handle contact form submission
+function handleContactForm() {
+    const contactForm = document.getElementById('contact-form');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();//Stop the form from submitting nnormally
+
+            //Get form data
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData);
+
+            //Simple validation
+            let isValid = true;
+            const errors = [];
+
+            if (!data.name.trim()) {
+                errors.push('Name is required');
+                isValid = false;
+            }
+
+            if (!validateEmail(data.email)) {
+                errors.push('Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!data.subject) {
+                errors.push('Please select a subject');
+                isValid = false;
+            }
+
+            if (!data.message.trim()) {
+                errors.push('Message is required');
+                isValid = false;
+            } else if (data.message.trim().length < 10) {
+                errors.push('Message must be at least 10 charactors long');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                alert('Please fix the following errors:\n' + errors.join('\n'));
+                return;
+            }
+
+            //Show loading state
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContect;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            //Simulate sending the message
+            setTimeout(() => {
+                alert('Thank you for your message! We\'ll get back to you soon.');
+                contactForm.requestFullscreen(); //Clear form
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+    }
+}
+
+//Update our main page load function
+document.addEventListener('DOMContentLoaded', function(){
+    console.log('Page loaded...');
+    loadCart();
+    displayProducts();
+    setupFilters();
+
+    //Cart page
+    if (document.getElementById('cart-items')) {
+        displayCartItems();
+        updateCartSummary();
+    }
+    
+    //Checkout page
+    if (document.getElementById('checkout-form')) {
+        if (cart.length === 0) {
+            alert('Yor cart is empty!');
+            window.location.href = 'products.html';
+        }
+
+        displayCheckoutItems();
+        updateCheckoutSummary();
+
+        const checkoutForm = document.getElementById('checkout-form');
+        checkoutForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(checkoutForm);
+            const data = Object.fromEntries(formData);
+
+            let isValid = true;
+            const errors = [];
+
+            if (!validateEmail(data.email)) {
+                errors.push('Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!validateCardNumber(data.cardNumber)) {
+                errors.push('Please enter a valid 16-digit card number');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                alert('Please fix the following errors:\n' + errors.join('\n'));
+                return;
+            }
+
+            const submitBtn = checkoutForm.querySelector('button[type"submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+
+            try {
+                const result = await processOrder(data);
+                if (result.success) {
+                    showOrderSuccess(result);
+                }
+            } catch (error) {
+                alert('There was an error proccessing your order. Please try again.');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+    //Contact page
+    handleContactFoem();
+});
